@@ -103,6 +103,6 @@ const handlers = {
     },
 };
 
-// window.addEventListener("message", function (e) {
-//     (handlers[e.data.eventName] || function () {})(e.data);
-// });
+window.addEventListener("message", function (e) {
+    (handlers[e.data.eventName] || function () {})(e.data);
+});
