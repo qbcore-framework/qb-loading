@@ -8,6 +8,6 @@ lua54 'yes'
 
 files { 'assets/**', 'html/*', }
 
-loadscreen { 'html/index.html' }
+loadscreen 'html/index.html'
 loadscreen_cursor 'yes'
 loadscreen_manual_shutdown 'yes'
