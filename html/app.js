@@ -70,11 +70,11 @@ function audiotoggle() {
 }
 
 function videotoggle() {
-    var x = document.getElementById("video");
+    var video = document.getElementById("video");
     if (video.paused) {
-        x.play();
+        video.play();
     } else {
-        x.pause();
+        video.pause();
     }
 }
 
