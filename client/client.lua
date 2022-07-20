@@ -1,8 +1,13 @@
-local checkState = false
+local Loaded = false
 
 AddEventHandler("playerSpawned", function ()
-    if not checkState then
+    if not Loaded then
         ShutdownLoadingScreenNui()
-        checkState = true
+        Loaded = true
+        if Config.Fade then
+            DoScreenFadeOut(0)
+            Wait(4000)
+            DoScreenFadeIn(2500)
+        end
     end
 end)
