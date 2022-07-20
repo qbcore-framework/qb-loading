@@ -58,7 +58,7 @@ load.use(Quasar, { config: {} })
 load.mount('#loading-main')
 
 var audio = document.getElementById("audio");
-audio.volume = 0.05;
+audio.volume = 0.40;
 
 function audiotoggle() {
     var audio = document.getElementById("audio");
