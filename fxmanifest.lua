@@ -5,7 +5,6 @@ description 'qb-loading'
 version '1.0'
 
 lua54 'yes'
-client_script 'client/client.lua'
 
 files { 'assets/**', 'html/*', }
 
