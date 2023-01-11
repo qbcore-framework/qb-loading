@@ -1,5 +1,10 @@
 const { ref } = Vue
 
+const config = {
+    musicMuted: true,
+    videoPaused: false,
+}
+
 // Customize language for dialog menus and carousels here
 
 const load = Vue.createApp({
@@ -62,6 +67,11 @@ audio.volume = 0.05;
 
 function audiotoggle() {
     var audio = document.getElementById("audio");
+
+    if (config.musicMuted) {
+        return audio.pause();
+    }
+
     if (audio.paused) {
         audio.play();
     } else {
@@ -71,6 +81,11 @@ function audiotoggle() {
 
 function videotoggle() {
     var video = document.getElementById("video");
+
+    if (config.videoPaused) {
+        return video.pause();
+    }
+
     if (video.paused) {
         video.play();
     } else {
