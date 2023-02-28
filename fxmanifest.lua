@@ -4,7 +4,6 @@ game 'gta5'
 description 'qb-loading'
 version '1.2.0'
 
-client_script 'client/client.lua'
 
 files {
   'assets/**',
