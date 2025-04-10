@@ -1,0 +1,63 @@
+name: Auto Bump FXManifest Version
+
+on:
+  push:
+    branches:
+      - main  # Change if your default branch is different
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    if: github.event.head_commit.author.name != 'github-actions[bot]'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Bump version in fxmanifest.lua
+        run: |
+          FILE="fxmanifest.lua"
+          echo "Reading version from $FILE"
+
+          # Extract the version line
+          VERSION_LINE=$(grep -E "version ['\"]?[0-9]+\.[0-9]+\.[0-9]+['\"]?" "$FILE")
+          echo "Found version line: $VERSION_LINE"
+
+          if [[ -z "$VERSION_LINE" ]]; then
+            echo "❌ No version line found in $FILE"
+            exit 1
+          fi
+
+          # Extract the version number
+          VERSION=$(echo "$VERSION_LINE" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+
+          echo "🔧 Bumping version: $VERSION → $NEW_VERSION"
+
+          # Replace the old version with the new one
+          sed -i "s/version ['\"]$VERSION['\"]/version '$NEW_VERSION'/" "$FILE"
+
+          echo "✅ Updated fxmanifest.lua to version $NEW_VERSION"
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add fxmanifest.lua
+
+          # Check if there is actually a diff
+          if git diff --cached --quiet; then
+            echo "⚠️ No changes to commit."
+            exit 0
+          fi
+
+          # Grab the latest commit message that triggered this action
+          LATEST_MSG=$(git log -1 --pretty=%B)
+
+          # Commit with context from the change that caused the bump
+          git commit -m "ci: bump fxmanifest version – ${LATEST_MSG}"
+          git push
